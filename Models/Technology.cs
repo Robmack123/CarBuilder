@@ -1,3 +1,5 @@
+namespace CarBuilder.Models.DTOs;
+
 public class Technology 
 {
     public int Id { get; set; }

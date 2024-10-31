@@ -1,3 +1,5 @@
+namespace CarBuilder.Models.DTOs;
+
 public class PaintColor
 {
     public int Id { get; set; }
