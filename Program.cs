@@ -174,4 +174,14 @@ app.MapGet("/interiors", () =>
     });
 });
 
+app.MapGet("/technologies", () => 
+{
+    return technologies.Select(t => new TechnologyDTO
+    {
+        Id = t.Id,
+        Price = t.Price,
+        Package = t.Package
+    });
+});
+
 app.Run();
