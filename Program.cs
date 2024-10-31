@@ -88,25 +88,25 @@ List<Wheels> wheels = new List<Wheels>
 {
     new Wheels()
     {
-        id = 1,
+        Id = 1,
         Price = 50.50M,
         Style = "17-inch Pair Radial"
     },
     new Wheels()
     {
-        id = 2,
+        Id = 2,
         Price = 50.50M,
         Style = "17-inch Pair Radial Black"
     },
     new Wheels()
     {
-        id = 3,
+        Id = 3,
         Price = 75.50M,
         Style = "18-inch Pair Spoke Silver"
     },
     new Wheels()
     {
-        id = 4,
+        Id = 4,
         Price = 75.50M,
         Style = "18-inch Pair Spoke Black"
     }
@@ -116,7 +116,7 @@ List<Order> orders = new List<Order>
 {
     new Order()
     {
-        id = 1,
+        Id = 1,
         Timestamp = new DateTime (2024, 02, 02),
         WheelId = 2,
         TechnologyId = 1,
@@ -143,5 +143,16 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapGet("/wheels", () =>
+{
+    return wheels.Select(w => new WheelsDTO
+    {
+        Id = w.Id,
+        Price = w.Price,
+        Style = w.Style
+    });
+});
+
 
 app.Run();
