@@ -154,5 +154,24 @@ app.MapGet("/wheels", () =>
     });
 });
 
+app.MapGet("/paintcolors", () => 
+{
+    return paintColors.Select(p => new PaintColorDTO
+    {
+        Id = p.Id,
+        Price = p.Price,
+        Color = p.Color
+    });
+});
+
+app.MapGet("/interiors", () => 
+{
+    return interiors.Select(i => new InteriorDTO
+    {
+        Id = i.Id,
+        Price = i.Price,
+        Material = i.Material
+    });
+});
 
 app.Run();
