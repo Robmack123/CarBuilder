@@ -229,4 +229,60 @@ app.MapGet("/orders", () =>
         : null
     });
 });
+
+
+app.MapPost("/orders", (Order order) =>
+{
+    Wheels wheel = wheels.FirstOrDefault(w => w.Id == order.WheelId);
+    Technology technology = technologies.FirstOrDefault(t => t.Id == order.TechnologyId);
+    PaintColor paintColor = paintColors.FirstOrDefault(p => p.Id == order.PaintId);
+    Interior interior = interiors.FirstOrDefault(i => i.Id == order.InteriorId);
+
+    if (wheel == null || technology == null || paintColor == null || interior == null)
+    {
+        return Results.BadRequest("One or more related entities were not found.");
+    }
+
+    order.Id = orders.Any() ? orders.Max(o => o.Id) + 1 : 1;
+    order.Timestamp = DateTime.Now;
+
+    orders.Add(order);
+
+    return Results.Created($"/orders/{order.Id}", new OrderDTO
+     {
+        Id = order.Id,
+        Timestamp = order.Timestamp,
+        WheelId = order.WheelId,
+        Wheel = new WheelsDTO
+        {
+            Id = wheel.Id,
+            Price = wheel.Price,
+            Style = wheel.Style
+        },
+        TechnologyId = order.TechnologyId,
+        Technology = new TechnologyDTO
+        {
+            Id = technology.Id,
+            Price = technology.Price,
+            Package = technology.Package
+        },
+        PaintId = order.PaintId,
+        PaintColor = new PaintColorDTO
+        {
+            Id = paintColor.Id,
+            Price = paintColor.Price,
+            Color = paintColor.Color
+        },
+        InteriorId = order.InteriorId,
+        Interior = new InteriorDTO
+        {
+            Id = interior.Id,
+            Price = interior.Price,
+            Material = interior.Material
+        }
+        
+    });
+});
+
+
 app.Run();
