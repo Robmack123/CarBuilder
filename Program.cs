@@ -184,4 +184,49 @@ app.MapGet("/technologies", () =>
     });
 });
 
+app.MapGet("/orders", () => 
+{
+    return orders.Select(o => new OrderDTO
+    {
+        Id = o.Id,
+        Timestamp = o.Timestamp,
+        WheelId = o.WheelId,
+        Wheel = wheels.FirstOrDefault(w => w.Id == o.WheelId) != null 
+        ? new WheelsDTO
+        {
+            Id = wheels.First(w => w.Id == o.WheelId).Id,
+            Price = wheels.First(w => w.Id == o.WheelId).Price,
+            Style = wheels.First(w => w.Id == o.WheelId).Style
+        }
+        : null, 
+        TechnologyId = o.TechnologyId,
+        Technology = technologies.FirstOrDefault(t => t.Id == o.TechnologyId) != null
+        ? new TechnologyDTO
+        {
+            Id = technologies.First(t => t.Id == o.TechnologyId).Id,
+            Price = technologies.First(t => t.Id == o.TechnologyId).Price,
+            Package = technologies.First(t => t.Id == o.TechnologyId).Package
+            
+        }
+        : null,
+        PaintId = o.PaintId,
+        PaintColor = paintColors.FirstOrDefault(p => p.Id == o.PaintId) != null
+        ? new PaintColorDTO
+        {
+            Id = paintColors.First(p => p.Id == o.PaintId).Id,
+            Price = paintColors.First(p => p.Id == o.PaintId).Price,
+            Color = paintColors.First(p => p.Id == o.PaintId).Color
+        }
+        : null,
+        InteriorId = o.InteriorId,
+        Interior = interiors.FirstOrDefault(i => i.Id == o.Id) != null
+        ? new InteriorDTO
+        {
+            Id = interiors.First(i => i.Id == o.Id).Id,
+            Price = interiors.First(i => i.Id == o.Id).Price,
+            Material = interiors.First(i => i.Id == o.Id).Material
+        }
+        : null
+    });
+});
 app.Run();
